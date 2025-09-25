@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Livros</title>
+    <link rel="stylesheet" href="/css/listagem.css">
+</head>
+<body>
+<nav>
+    <a href="lista.html" id="nav-lista">Lista de Livros</a>
+    <a href="formulario.html" id="nav-novo">Novo Livro</a>
+</nav>
+
+<h1>Lista de Livros</h1>
+<p>Total: <span id="total-count">0</span> livro(s)</p>
+<button id="btn-novo-livro">+ Novo Livro</button>
+
+<table id="books-table">
+    <thead><tr><th>Título</th><th>Autor</th><th>Categoria</th><th>Ações</th></tr></thead>
+    <tbody></tbody>
+</table>
+
+<script>
+    fetch('/api/livros')
+      .then(r => r.json())
+      .then(livros => {
+        document.getElementById('total-count').textContent = livros.length;
+        const tbody = document.querySelector('#books-table tbody');
+        livros.forEach((l,i) => {
+          const tr = document.createElement('tr');
+          tr.id = 'book-row-' + i;
+          tr.innerHTML = `
+            <td class="book-title">${l.titulo}</td>
+            <td class="book-author">${l.autor}</td>
+            <td class="book-category">${l.categoria}</td>
+            <td>
+              <button class="edit-btn btn" data-titulo="${l.titulo}" id="btn-edit-${i}">Editar</button>
+              <button class="delete-btn btn btn-danger" data-titulo="${l.titulo}" id="btn-delete-${i}">Remover</button>
+            </td>`;
+          tbody.append(tr);
+        });
+      });
+
+    document.getElementById('btn-novo-livro').onclick = () =>
+      window.location.href = 'formulario.html';
+
+    document.querySelector('#books-table tbody').addEventListener('click', e => {
+      if (e.target.classList.contains('edit-btn')) {
+        window.location.href = `formulario.html?titulo=${encodeURIComponent(e.target.dataset.titulo)}`;
+      }
+      if (e.target.classList.contains('delete-btn')) {
+        if (!confirm(`Remover ${e.target.dataset.titulo}?`)) return;
+        fetch('/api/livros/' + encodeURIComponent(e.target.dataset.titulo), { method:'DELETE' })
+          .then(()=> location.reload());
+      }
+    });
+</script>
+</body>
+</html>

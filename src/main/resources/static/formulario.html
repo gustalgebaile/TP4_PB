@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário de Livro</title>
+    <link rel="stylesheet" href="/css/formulario.css">
+</head>
+<body>
+<nav>
+    <a href="lista.html" id="nav-lista">Lista de Livros</a>
+    <a href="formulario.html" id="nav-novo">Novo Livro</a>
+</nav>
+
+<h1 id="form-title">Cadastrar Livro</h1>
+<div id="message"></div>
+
+<form id="book-form">
+    <div>
+        <label>Título *</label>
+        <input type="text" id="titulo" required maxlength="100">
+    </div>
+    <div>
+        <label>Autor *</label>
+        <input type="text" id="autor" required maxlength="100">
+    </div>
+    <div>
+        <label>Categoria *</label>
+        <select id="categoria" name="categoria" required>
+            <option value="">Selecione</option>
+            <option value="FICCAO">Ficção</option>
+            <option value="CIENCIA">Ciência</option>
+            <option value="HISTORIA">História</option>
+            <option value="TECNOLOGIA">Tecnologia</option>
+            <option value="ROMANCE">Romance</option>
+            <option value="NAO_CLASSIFICADO">Não Classificado</option>
+        </select>
+    </div>
+    <button type="submit" class="btn" id="btn-salvar">Salvar</button>
+    <button type="button" class="btn btn-secondary" id="btn-cancelar">Cancelar</button>
+</form>
+
+<script>
+    const form = document.getElementById('book-form');
+    const msg  = document.getElementById('message');
+    const params = new URLSearchParams(location.search);
+    const original = params.get('titulo');
+
+    if (original) {
+      document.getElementById('form-title').textContent = 'Editar Livro';
+      fetch('/api/livros/' + encodeURIComponent(original))
+        .then(r=>r.json())
+        .then(l=>{
+          document.getElementById('titulo').value = l.titulo;
+          document.getElementById('autor').value = l.autor;
+          document.getElementById('categoria').value = l.categoria;
+        });
+    }
+
+    form.onsubmit = e => {
+      e.preventDefault();
+      const livro = {
+        titulo: document.getElementById('titulo').value.trim(),
+        autor:  document.getElementById('autor').value.trim(),
+        categoria: document.getElementById('categoria').value
+      };
+      if (!livro.titulo || !livro.autor || !livro.categoria) {
+        msg.textContent = 'Preencha todos os campos!';
+        msg.style.color = 'red';
+        return;
+      }
+      const method = original ? 'PUT' : 'POST';
+      const url = original
+        ? '/api/livros/' + encodeURIComponent(original)
+        : '/api/livros';
+      fetch(url, {
+        method,
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(livro)
+      })
+      .then(r=>{
+        if (!r.ok) throw new Error('Erro');
+        window.location.href = 'lista.html';
+      })
+      .catch(()=> {
+        msg.textContent = 'Falha ao salvar!';
+        msg.style.color = 'red';
+      });
+    };
+
+    document.getElementById('btn-cancelar').onclick = () =>
+      window.location.href = 'lista.html';
+</script>
+</body>
+</html>

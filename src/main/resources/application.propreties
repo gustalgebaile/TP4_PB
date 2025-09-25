@@ -1,0 +1,26 @@
+# Configurações da aplicação Spring Boot
+server.port=8080
+server.servlet.context-path=/
+
+# Configurações do Thymeleaf
+spring.thymeleaf.cache=false
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+spring.thymeleaf.mode=HTML
+spring.thymeleaf.encoding=UTF-8
+
+# Configurações de logging
+logging.level.com.biblioteca=DEBUG
+logging.level.org.springframework=INFO
+logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss} - %msg%n
+
+# Configurações de desenvolvimento
+spring.devtools.restart.enabled=true
+spring.devtools.livereload.enabled=true
+
+# Configurações de validação
+spring.mvc.throw-exception-if-no-handler-found=true
+spring.web.resources.add-mappings=false
+
+spring.datasource.url=jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false
+spring.jpa.hibernate.ddl-auto=create-drop
