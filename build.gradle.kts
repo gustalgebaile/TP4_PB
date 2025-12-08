@@ -36,8 +36,8 @@ sourceSets {
 }
 
 group = "com.biblioteca"
-version = "2.0-SNAPSHOT"
-description = "TP4_PB"
+version = "1.0-SNAPSHOT"
+description = "TP5_PB"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -47,6 +47,12 @@ java {
 publishing {
     publications.create<MavenPublication>("maven") {
         from(components["java"])
+    }
+}
+
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "com.biblioteca.BibliotecaWebApplication"
     }
 }
 
