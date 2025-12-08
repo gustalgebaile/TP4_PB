@@ -1,5 +1,4 @@
-name: Java CI with Gradle
-
+name: Java CI w/Gradle
 on:
   push:
     branches: [main]
