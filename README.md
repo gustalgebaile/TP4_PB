@@ -10,7 +10,7 @@ Projeto de refatoração de um sistema de biblioteca com foco em modularização
 
 #### Pré-requisitos
 
-- **Java 21** instalado ([Temurin/OpenJDK recomendado](https://adoptium.net/))
+- **Java 21** instalado
 - **Git** instalado
 - **Gradle** (opcional) - o projeto inclui Gradle Wrapper (`gradlew`)
 
@@ -188,12 +188,6 @@ Workflow Status: Failed
 - **Problema**: Erros de instrumentação Jacoco com Java 24
 - **Solução**: Configuração explícita para Java 21, exclusão de classes JDK do relatório Jacoco
 - **Resultado**: Testes e cobertura funcionam sem erros
-
-#### Documentação e logs
-
-- **Adição**: README.md completo com manual de execução
-- **Benefício**: Novos desenvolvedores conseguem rodar o projeto rapidamente
-
 ---
 
 ## Estrutura do Projeto
@@ -228,15 +222,6 @@ TP4/
 ├── README.md                      # Este arquivo
 └── .gitignore                     # Arquivos ignorados pelo Git
 ```
-
----
-
-## Requisitos atendidos
-
-- **Refatoração de código**: Estrutura modular com separação clara de responsabilidades
-- **Cobertura de testes**: ≥85% de cobertura medida por Jacoco
-- **GitHub Actions**: Workflow automatizado para build, teste e relatório
-- **Readme**: Manual completo com instruções de execução e interpretação
 
 Github: https://github.com/gustalgebaile/TP4_PB
 
